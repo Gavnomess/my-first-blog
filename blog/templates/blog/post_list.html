@@ -11,14 +11,20 @@
                     <p>{{ post.text|linebreaksbr }}</p>
                 </div>
             {% endfor %}
-
+<form method = "POST", action = "">
 <div class="rectangle"></div>
 <div>
-<input type="text", class = edit1 size="5">
-<input type="text", class = edit2 size="5">
-<input type="text", class = edit_result size="5" readonly>
+<!-- <input type="text", class = edit1 size="5"> -->
+<!--<input type="text", class = edit2 size="5">  -->
+<!--<input type="text", class = edit_result size="5" readonly> -->
+{% csrf_token %}
+
+{{answer}}
+{{form}}
+{{ form.as_p }}
 <p class= text_plus><big><big><big><big>+</big></big></big></big></p>
 <p class= text_equal><big><big><big><big>=</big></big></big></big></p>
-<input type="button" value=" Результат ", class = button>
+<input type="submit" value=" Результат ", class = button>
 </div>
+</form>
   {% endblock %}        
