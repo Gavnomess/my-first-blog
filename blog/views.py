@@ -1,8 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post
+from .models import Post, summator_model
 from django.utils import timezone
 from .forms import PostForm, sum_form
 from django.http import HttpResponseRedirect
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import Result_Serializer
+from rest_framework import generics
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by
@@ -40,23 +44,39 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
 
-def get_result(request):
-    if request.method == "POST":       
-        answer = sum_form(request.POST)
-        answer1 = sum_form()
+class Result_view(generics.ListCreateAPIView):
+#class Result_view(APIView):
+
+#    def get_html(request):
+#        if request.method == "GET":
+#            return render(request, 'blog/test.html',{'edits': edits})
+       
+
+#    def get(self, request):
+#    edits = summator_model.objects.all()
+#    serializer = Result_Serializer(edits, many=True)
+#        return Response({"edits": serializer.data})
+    queryset = summator_model.objects.all()
+    serializer_class = Result_Serializer
+
+
+
+
+     # def get_result(request):
+     #   if request.method == "POST":       
+     #       answer = sum_form(request.POST)
+     #       answer1 = sum_form()
 
      #   answer1.fields['edit_result'].label = ''
         
          
 
-        a  = int (answer['edit1'].data) + int (answer['edit2'].data)
-        answer1.fields['edit_result'].initial = a
+    #        a  = int (answer['edit1'].data) + int (answer['edit2'].data)
+    #        answer1.fields['edit_result'].initial = a
 
-        return render(request, 'blog/test.html',{'answer1': answer1})
+   #         return render(request, 'blog/test.html',{'answer1': answer1})
            
-    else:
-        answer = sum_form()
-
-    
-    return render(request, 'blog/test.html',{'answer': answer})
+   #     else:
+   #         answer = sum_form()
+   #     return render(request, 'blog/test.html',{'answer': answer})
 		

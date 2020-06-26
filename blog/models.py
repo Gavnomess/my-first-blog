@@ -16,3 +16,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+class summator_model(models.Model):
+    edit1_model = models.CharField(max_length = 5)
+    edit2_model = models.CharField(max_length = 5)
+     
+    edit_result_model = models.CharField(max_length = 5)
