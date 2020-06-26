@@ -52,11 +52,11 @@ def get_result(request):
         a  = int (answer['edit1'].data) + int (answer['edit2'].data)
         answer1.fields['edit_result'].initial = a
 
-        return render(request, 'blog/post_list.html',{'answer1': answer1})
+        return render(request, 'blog/test.html',{'answer1': answer1})
            
     else:
         answer = sum_form()
 
     
-    return render(request, 'blog/post_list.html',{'answer': answer})
+    return render(request, 'blog/test.html',{'answer': answer})
 		
