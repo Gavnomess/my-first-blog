@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post
 from django.utils import timezone
-from .forms import PostForm, sum_form, NameForm
+from .forms import PostForm, sum_form
 from django.http import HttpResponseRedirect
 
 def post_list(request):
@@ -41,34 +41,22 @@ def post_edit(request, pk):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 def get_result(request):
-    if request.method == "POST":
-        
+    if request.method == "POST":       
         answer = sum_form(request.POST)
+        answer1 = sum_form()
 
-        if answer.is_valid():
-            answer.edit_result = answer.cleaned_data['edit1'] + answer.cleaned_data['edit2']
-#            answer.save()
-#            return HttpResponseRedirect('')
+     #   answer1.fields['edit_result'].label = ''
+        
          
-#        answer.initial['edit_result'] = '5' 
+
+        a  = int (answer['edit1'].data) + int (answer['edit2'].data)
+        answer1.fields['edit_result'].initial = a
+
+        return render(request, 'blog/post_list.html',{'answer1': answer1})
+           
     else:
         answer = sum_form()
-    return render(request, 'blog/test.html',{'answer': answer})
+
+    
+    return render(request, 'blog/post_list.html',{'answer': answer})
 		
-def get_name(request):
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = NameForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect('/thanks/')
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = NameForm()
-
-    return render(request, 'blog/post_list.html', {'form': form})
